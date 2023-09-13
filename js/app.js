@@ -238,7 +238,7 @@ function changeGameStats(changeGame){
         userMoney += winMoney
         console.log("Ganhou: "+winMoney)
         getUserStats(uuid)
-        alert("Você Ganhou!")
+        // alert("Você Ganhou!")
       }
       resolve();
   },1001)
