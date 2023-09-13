@@ -113,7 +113,7 @@ function getUserStats(uuid){
 btnRocket.addEventListener('click',(e)=>{
   setTimeout(()=>{
     console.log('rolling')
-    if(bet <= 0 || bet > userMoney) return alert("Valor Inválido") 
+    if((bet <= 0) || (bet > userMoney)) return alert("Valor Inválido!") 
     gameChance()
     rollCards(changeGameSortValue)
     // drawDevStats();
