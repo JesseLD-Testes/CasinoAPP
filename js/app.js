@@ -30,9 +30,11 @@ const btnAddCash = document.querySelector('.add')
 const btnRemoveCash = document.querySelector('.remove')
 const betValue = document.querySelector('.bet-value')
 const devStats = document.querySelector('.dev-stats')
+const betInput = document.querySelector('#bet-input')
 
+const states = ["finished","roll"]
 
-
+const state = [states[0]]
 
 const stopTime = 1000;
 
@@ -75,6 +77,10 @@ if(up && down) {
 }
 
 
+betInput.addEventListener('change',(e)=>{
+  bet = e.target.value
+  console.log(bet)
+})
 
 function getUserStats(uuid){
   // let stringUserBalance = users[uuid].balance.toString
@@ -111,29 +117,40 @@ function getUserStats(uuid){
 
 
 btnRocket.addEventListener('click',(e)=>{
-  setTimeout(()=>{
-    console.log('rolling')
-    if((bet <= 0) || (bet > userMoney)) return alert("Valor Inválido!") 
-    gameChance()
-    rollCards(changeGameSortValue)
-    // drawDevStats();
-    userMoney -= bet.toFixed(2)
-    getUserStats(uuid)
-    console.log(userMoney)
-    
-  },40)
+  console.log(state[0])
+  if(state[0] == states[0]){
+    state[0] = states[1];
+    setTimeout(()=>{
+      console.log('rolling')
+      if((bet <= 0)) {state[0] = states[0]; return alert("Valor Inválido!") }
+      if(bet > userMoney){ 
+        bet = userMoney
+        betInput.value = userMoney
+      }
+      // console.log()
+      gameChance()
+      rollCards(changeGameSortValue)
+      // drawDevStats();
+      userMoney -= bet
+      getUserStats(uuid)
+      console.log(userMoney)
+      state[0] = states[0];
+    },40)
+  }else{
+    alert("Agurde..")
+  }
 })
 
-btnAddCash.addEventListener('click',(e)=>{
-  bet += betInteval
-  if(bet >= userMoney) bet = userMoney
-  betValue.innerText = `R$ ${bet.toFixed(2)}`
-})
-btnRemoveCash.addEventListener('click',(e)=>{
-  bet -= betInteval
-  if(bet <= 0) bet = 0
-  betValue.innerText = `R$ ${bet.toFixed(2)}`
-})
+// btnAddCash.addEventListener('click',(e)=>{
+//   bet += betInteval
+//   if(bet >= userMoney) bet = userMoney
+//   betValue.innerText = `R$ ${bet.toFixed(2)}`
+// })
+// btnRemoveCash.addEventListener('click',(e)=>{
+//   bet -= betInteval
+//   if(bet <= 0) bet = 0
+//   betValue.innerText = `R$ ${bet.toFixed(2)}`
+// })
 
 
 function gameChance(){
